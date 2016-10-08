@@ -197,7 +197,7 @@ public class LogComposite extends Composite {
 		
 		QueryExecuteResultDTO showStatus = new QueryExecuteResultDTO();
 		try {
-			showStatus = QueryUtils.executeQuery(userDB, strFullyQuery, 0, 500, "");
+			showStatus = QueryUtils.executeQuery(userDB, strFullyQuery, 0, 500);
 		} catch (Exception e) {
 			logger.error("search exception", e);
 		}
