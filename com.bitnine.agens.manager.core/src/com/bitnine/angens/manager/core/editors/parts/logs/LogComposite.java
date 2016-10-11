@@ -96,7 +96,7 @@ public class LogComposite extends Composite {
 		comboLevel.add("LOG");
 		comboLevel.add("FATAL");
 		comboLevel.add("PANIC");
-		comboLevel.select(0);
+		comboLevel.select(7);
 		
 		Label lblUserName = new Label(grpSearchOption, SWT.NONE);
 		lblUserName.setText("User Name");
@@ -161,6 +161,7 @@ public class LogComposite extends Composite {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		initUI();
+		search();
 	}
 	
 	/**
