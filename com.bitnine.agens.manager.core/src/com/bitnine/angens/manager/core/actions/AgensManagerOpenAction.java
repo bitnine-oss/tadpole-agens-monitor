@@ -23,6 +23,7 @@ import com.bitnine.angens.manager.core.editors.AgensManagerEditor;
 import com.bitnine.angens.manager.core.editors.AgensManagerEditorInput;
 import com.hangum.tadpole.commons.exception.dialog.ExceptionDetailsErrorDialog;
 import com.hangum.tadpole.engine.define.DBDefine;
+import com.hangum.tadpole.engine.define.DBGroupDefine;
 import com.hangum.tadpole.engine.query.dao.system.UserDBDAO;
 import com.hangum.tadpole.engine.query.dao.system.UserDBResourceDAO;
 import com.hangum.tadpole.engine.query.dao.system.userdb.ResourcesDAO;
@@ -96,7 +97,7 @@ public class AgensManagerOpenAction extends Action implements ISelectionListener
 			}
 			
 			if(userDB != null) {
-				if(userDB.getDBDefine() == DBDefine.POSTGRE_DEFAULT) {
+				if(userDB.getDBGroup() == DBGroupDefine.POSTGRE_GROUP) {
 					setEnabled(true);
 				}
 			}
