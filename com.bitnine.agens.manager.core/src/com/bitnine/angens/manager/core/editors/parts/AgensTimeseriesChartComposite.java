@@ -63,13 +63,18 @@ public abstract class AgensTimeseriesChartComposite extends AgensChartComposite 
 	    display.asyncExec( new Runnable() {
 	    	public void run() {
 	    		try {
+/*
 	    			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
 		    		String strHtml = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, AgensChartTemplate.TIMESERIESCHART_TEMPLATE, AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup));
-		    		
-//		    		if(logger.isDebugEnabled()) logger.debug("[output hthml]" + strHtml);
+		    		if(logger.isDebugEnabled()) logger.debug("[output hthml]" + strHtml);
 		    		browserChart.setText(strHtml);
+*/	    			
+	    			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
+	    			String jsondata = AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup); 
+	    			browserChart.evaluate(String.format("tdb_alert(%s);", jsondata));
+	    			
 	    		} catch(Exception e) {
-	    			logger.error("print timeseries chart", e);
+	    			logger.error("print timeseries chart : " + e.getMessage());
 	    		}
 	    	}
 	    });	// end display

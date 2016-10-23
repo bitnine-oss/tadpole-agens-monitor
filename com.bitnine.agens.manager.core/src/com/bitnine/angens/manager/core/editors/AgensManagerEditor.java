@@ -13,6 +13,8 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -68,6 +70,8 @@ import com.bitnine.angens.manager.core.editors.parts.statistics.WALStatisticsSta
 import com.bitnine.angens.manager.core.editors.parts.statistics.WALStatisticsTableComposite;
 import com.bitnine.angens.manager.core.editors.parts.summary.AlertMessageComposite;
 import com.bitnine.angens.manager.core.editors.parts.summary.SummaryComposite;
+import com.bitnine.angens.manager.core.utils.AgensChartUtils;
+import com.hangum.tadpole.commons.libs.core.message.CommonMessages;
 import com.hangum.tadpole.engine.query.dao.system.UserDBDAO;
 
 /**
@@ -87,6 +91,9 @@ public class AgensManagerEditor extends EditorPart {
 
 	/** 모니터링 인스턴스 combo */
 	private Combo comboInstance;
+	/** 모니터링 주기 */
+	private Combo comboMonitoringTerm;
+	
 	/** 디테일 오브젝트를 보여줄 composite */
 	private CTabFolder tabFolderMainResult;
 
@@ -113,6 +120,28 @@ public class AgensManagerEditor extends EditorPart {
 		GridData gd_comboInstance = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_comboInstance.widthHint = 100;
 		comboInstance.setLayoutData(gd_comboInstance);
+		
+		Label lblMonitoringTerm = new Label(grpConfiguration, SWT.NONE);
+		lblMonitoringTerm.setText("Monitoring term\n(minute)");
+
+		comboMonitoringTerm = new Combo(grpConfiguration, SWT.READ_ONLY);
+		comboMonitoringTerm.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(!MessageDialog.openConfirm(getSite().getShell(), CommonMessages.get().Confirm, "모니터링 주기를 바꾸시겠습니까?")) return;
+				
+				AgensChartUtils.setMonitoringTerm(comboMonitoringTerm.getText());
+			}
+		});
+		GridData gd_comboTerm = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_comboTerm.widthHint = 100;
+		comboMonitoringTerm.setLayoutData(gd_comboTerm);
+		
+		comboMonitoringTerm.add("1");
+		comboMonitoringTerm.add("5");
+		comboMonitoringTerm.add("10");
+		comboMonitoringTerm.add("20");
+		comboMonitoringTerm.add("30");
 
 		initUI();
 
@@ -150,6 +179,9 @@ public class AgensManagerEditor extends EditorPart {
 				comboInstance.setData(strName, instance);
 			}
 			comboInstance.select(0);
+			
+			// setting monitoring term
+			comboMonitoringTerm.setText(AgensChartUtils.getMonitoringTerm());
 
 			isMonitoringStart = true;
 		} catch (Exception e) {

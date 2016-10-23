@@ -60,9 +60,9 @@ public class DiskReadComposite extends AgensChartComposite {
 		pieDiskSize.setLayout(gl_grpConnectionInfo);
 		pieDiskSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		pieDiskSize.setLabelsOutside(false);
+		pieDiskSize.setLabelsOutside(true);
 		pieDiskSize.setLabelSunbeamLayout(false);
-		pieDiskSize.setShowLabels(true);
+		pieDiskSize.setShowLabels(false);
 		pieDiskSize.setLegendPosition("right");
 
 		// 초기 파이차트의 유형을 잡아준다.

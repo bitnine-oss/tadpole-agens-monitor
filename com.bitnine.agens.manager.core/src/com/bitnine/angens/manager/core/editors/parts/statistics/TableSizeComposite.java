@@ -61,8 +61,8 @@ public class TableSizeComposite extends AgensChartComposite {
 		pieTableSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		pieTableSize.setLabelsOutside(false);
-		pieTableSize.setLabelSunbeamLayout(false);
-		pieTableSize.setShowLabels(true);
+		pieTableSize.setLabelSunbeamLayout(true);
+		pieTableSize.setShowLabels(false);
 		pieTableSize.setLegendPosition("right");
 
 		// 초기 파이차트의 유형을 잡아준다.

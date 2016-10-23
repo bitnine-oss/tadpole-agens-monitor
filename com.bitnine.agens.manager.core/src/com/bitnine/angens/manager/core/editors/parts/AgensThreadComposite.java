@@ -95,10 +95,20 @@ public abstract class AgensThreadComposite extends Composite {
 					    }
 					}
 				    
-					// 5분에 한번씩 ( 모니터링 주기 데이터가 10분에 한번씩 뫃아집니다 )  
-				    try {
-						Thread.sleep(AgensGraphDefine.MONITORING_CYCLE_SEC * 5000);								
-					} catch(Exception e){}	
+//					// 모니터링 대기.
+//					getParent().getDisplay().syncExec(new Runnable() {
+//						@Override
+//						public void run() {
+						    try {
+						    	int intTerm = 10;//Integer.parseInt(AgensChartUtils.getMonitoringTerm());
+								Thread.sleep(AgensGraphDefine.MONITORING_CYCLE * intTerm);								
+							} catch(Exception e){
+								logger.error("get monitoring term exception" + e.getMessage());
+							}
+//						}
+//					});	// end display
+					
+					
 				}	// end while
 			}	// end run
 		};
