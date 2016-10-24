@@ -79,7 +79,7 @@ public abstract class AgensTimeseriesChartComposite extends AgensChartComposite 
 
 	    			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
 		    		String strHtml = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, AgensChartTemplate.TIMESERIESCHART_TEMPLATE, AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup));
-		    		if(logger.isDebugEnabled()) logger.debug("[output hthml]" + strHtml);
+		    		if(logger.isDebugEnabled()) logger.debug("[output hthml]\n" + strHtml);
 		    		browserChart.setText(strHtml);
 	    			
 

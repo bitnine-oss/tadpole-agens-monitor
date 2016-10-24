@@ -25,7 +25,13 @@
 </style>
 </head>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
+
+function myFunc(div) {
+    var scroll = document.body.scrollTop;
+    div.style.top = (scroll / 10)+"px";
+};
+
 	nv.addGraph(function() {
 		var chart = nv.models.lineChart().margin({
 			left : 100,
@@ -37,7 +43,7 @@
 		.showYAxis(true) //Show the y-axis
 		.showXAxis(true) //Show the x-axis
 		;
-
+		
 		var reportData = _TIMESERIESCHART_TEMPLATE;
 		chart.xAxis //Chart x-axis settings
 		.axisLabel(_XAXIS_LABEL_).tickValues(
@@ -47,13 +53,42 @@
 			return d3.time.format(_FORMAT_XAXIS_LABEL)(new Date(d))
 		});
 
+		
+		
 		chart.yAxis //Chart y-axis settings
-		.axisLabel(_YAXIS_LABEL_).tickFormat(_FORMAT_YAXIS_LABEL);
+		.axisLabel(_YAXIS_LABEL_)
+		.tickFormat(_FORMAT_YAXIS_LABEL);
 
 		/* Done setting the chart up? Time to render it!*/
 		d3.select('#chart svg') //Select the <svg> element you want to render the chart in.   
 		.datum(reportData) //Populate the <svg> element with chart data...
-		.call(chart); //Finally, render the chart!
+		.call(chart) //Finally, render the chart!
+		;
+		
+		 // window.addEventListener("scroll", myFunc.bind(this, document.getElementById("chart")), false);
+		
+		//var zoom = d3.behavior.zoom().scaleExtent([0.1, 10]);
+	    
+		//d3.select('#chart svg')
+		//.call(zoom)
+		//.on("dblclick.zoom", null)
+		//.on("mousewheel.zoom", null)
+		
+		//.on("DOMMouseScroll.zoom",null)
+		//;
+		
+		//d3.event.sourceEvent.stopPropagation();		
+		/*
+		$('svg')
+  .on("mousewheel.zoom", null)
+  .on("DOMMouseScroll.zoom", null) // disables older versions of Firefox
+  .on("wheel.zoom", null);
+		*/
+		
+		//d3.call(d3.behavior.zoom().on("zoom", update)).on("dblclick.zoom", null);
+		//d3.call(d3.behavior.zoom().on("zoom", update)).on("mousewheel.zoom", null);
+		//d3.call(d3.behavior.zoom().on("zoom", update)).on("wheel.zoom", null);
+		//d3.call(d3.behavior.zoom().on("zoom", update)).on("DOMMouseScroll.zoom", null);
 
 		//Update the chart when window resizes.
 		nv.utils.windowResize(function() {
@@ -63,10 +98,10 @@
 	});
 </script>
 
-<body scroll="no" style="overflow:hidden;">
-	<div data-role="page" id="page1">
-		<div role="main" class="ui-content">
-			<div id="chart">
+<body scroll="no" style="overflow-x:hidden">
+	<div data-role="page" id="page1" style="overflow-x:hidden">
+		<div role="main" class="ui-content" style="overflow-x:hidden">
+			<div id="chart" style="overflow-x:hidden">
 				<svg id="chartCanvas"></svg>
 			</div>
 		</div>

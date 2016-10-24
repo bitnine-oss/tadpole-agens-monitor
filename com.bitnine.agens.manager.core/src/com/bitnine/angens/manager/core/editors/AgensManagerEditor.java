@@ -152,6 +152,12 @@ public class AgensManagerEditor extends EditorPart {
 
 			tabFolderMainResult = new CTabFolder(grpDashboard, SWT.NONE);
 			tabFolderMainResult.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+			tabFolderMainResult.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
+//					System.out.println(tabFolderMainResult.getSelectionIndex() + " selected");
+					
+				}
+			});
 
 			createSummary();
 			createStatistics();
@@ -278,7 +284,6 @@ public class AgensManagerEditor extends EditorPart {
 				scrolledComposite.setMinSize(compositeBody.computeSize(r.width, SWT.DEFAULT));
 			}
 		});
-		
 	}
 
 	/**
