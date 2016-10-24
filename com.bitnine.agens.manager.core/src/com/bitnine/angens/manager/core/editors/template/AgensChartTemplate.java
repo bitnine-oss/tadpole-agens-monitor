@@ -32,7 +32,7 @@ public class AgensChartTemplate {
 		ApplicationContext applicationContext = RWT.getApplicationContext();
 		Object temp_timesericechart = applicationContext.getAttribute(TIMESERIESCHART_TEMPLATE);
 		if(temp_timesericechart == null) {
-			String strTemp = IOUtils.toString(AgensChartTemplate.class.getResource("Template_TimeseriesChart.html_"));
+			String strTemp = IOUtils.toString(AgensChartTemplate.class.getResource("Template_TimeseriesChart.html"));
 			applicationContext.setAttribute(TIMESERIESCHART_TEMPLATE, strTemp);
 			
 			return strTemp;

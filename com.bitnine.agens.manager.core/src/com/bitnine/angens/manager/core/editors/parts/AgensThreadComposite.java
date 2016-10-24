@@ -13,6 +13,9 @@ import com.bitnine.agens.manager.engine.core.AgensManagerSQLImpl;
 import com.bitnine.agens.manager.engine.core.dao.domain.Instance;
 import com.bitnine.angens.manager.core.utils.AgensGraphDefine;
 import com.hangum.tadpole.engine.query.dao.system.UserDBDAO;
+import com.hangum.tadpole.engine.query.dao.system.UserInfoDataDAO;
+import com.hangum.tadpole.engine.query.sql.TadpoleSystem_UserInfoData;
+import com.hangum.tadpole.session.manager.SessionManager;
 
 /**
  * agens thread composite
@@ -82,6 +85,7 @@ public abstract class AgensThreadComposite extends Composite {
 	 */
 	private Runnable startUIThread() {
 		isUIThreadRunning = true;
+		final int userSeq = SessionManager.getUserSeq();
 		
 		Runnable bgRunnable = new Runnable() {
 			public void run() {
@@ -94,23 +98,31 @@ public abstract class AgensThreadComposite extends Composite {
 					    	logger.error("Job executing", e);
 					    }
 					}
-				    
-//					// 모니터링 대기.
-//					getParent().getDisplay().syncExec(new Runnable() {
-//						@Override
-//						public void run() {
-						    try {
-						    	int intTerm = 10;//Integer.parseInt(AgensChartUtils.getMonitoringTerm());
-								Thread.sleep(AgensGraphDefine.MONITORING_CYCLE * intTerm);								
-							} catch(Exception e){
-								logger.error("get monitoring term exception" + e.getMessage());
-							}
-//						}
-//					});	// end display
-					
+
+					// 모니터링 대기.
+					try {
+						int intTerm = getInterval();
+						if(logger.isDebugEnabled()) logger.debug("[agens thread][default term]" + AgensGraphDefine.MONITORING_CYCLE + ":[setting Term]" +  intTerm);
+						Thread.sleep(AgensGraphDefine.MONITORING_CYCLE * intTerm);								
+					} catch(Exception e){
+						logger.error("get monitoring term exception" + e.getMessage());
+					}
 					
 				}	// end while
 			}	// end run
+			
+			/**
+			 * get monitoring interval
+			 * @return
+			 */
+			private int getInterval() {
+				try {
+					return AgensGraphDefine.MONITORING_INTERVAL;
+				} catch(Exception e) {
+					logger.error("get monitoring interval", e);
+					return AgensGraphDefine.MONITORING_INTERVAL;
+				}
+			}
 		};
 		
 		return bgRunnable;

@@ -71,7 +71,6 @@ import com.bitnine.angens.manager.core.editors.parts.statistics.WALStatisticsTab
 import com.bitnine.angens.manager.core.editors.parts.summary.AlertMessageComposite;
 import com.bitnine.angens.manager.core.editors.parts.summary.SummaryComposite;
 import com.bitnine.angens.manager.core.utils.AgensChartUtils;
-import com.hangum.tadpole.commons.libs.core.message.CommonMessages;
 import com.hangum.tadpole.engine.query.dao.system.UserDBDAO;
 
 /**
@@ -128,8 +127,6 @@ public class AgensManagerEditor extends EditorPart {
 		comboMonitoringTerm.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(!MessageDialog.openConfirm(getSite().getShell(), CommonMessages.get().Confirm, "모니터링 주기를 바꾸시겠습니까?")) return;
-				
 				AgensChartUtils.setMonitoringTerm(comboMonitoringTerm.getText());
 			}
 		});
@@ -138,10 +135,12 @@ public class AgensManagerEditor extends EditorPart {
 		comboMonitoringTerm.setLayoutData(gd_comboTerm);
 		
 		comboMonitoringTerm.add("1");
+		comboMonitoringTerm.add("3");
 		comboMonitoringTerm.add("5");
 		comboMonitoringTerm.add("10");
 		comboMonitoringTerm.add("20");
 		comboMonitoringTerm.add("30");
+		comboMonitoringTerm.add("60");
 
 		initUI();
 
