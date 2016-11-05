@@ -26,76 +26,89 @@
 </head>
 
 <script type="text/javascript"> 
+var lineChart;
+var xlabel = _XAXIS_LABEL_;
+var xformat = _FORMAT_XAXIS_LABEL;
 
-function myFunc(div) {
-    var scroll = document.body.scrollTop;
-    div.style.top = (scroll / 10)+"px";
-};
+nv.addGraph(function() {
 
-	nv.addGraph(function() {
-		var chart = nv.models.lineChart().margin({
-			left : 100,
-			right : 50
-		}) //Adjust chart margins to give the x-axis some breathing room.
-		.useInteractiveGuideline(true) //We want nice looking tooltips and a guideline!
-		.transitionDuration(350) //how fast do you want the lines to transition?
-		.showLegend(true) //Show the legend, allowing users to turn on/off line series.
-		.showYAxis(true) //Show the y-axis
-		.showXAxis(true) //Show the x-axis
-		;
-		
-		var reportData = _TIMESERIESCHART_TEMPLATE;
-		chart.xAxis //Chart x-axis settings
-		.axisLabel(_XAXIS_LABEL_).tickValues(
-				reportData[0].values.map(function(p) {
-					return p.x
-				})).tickFormat(function(d) {
-			return d3.time.format(_FORMAT_XAXIS_LABEL)(new Date(d))
+	lineChart = nv.models.lineChart().margin({
+		left : 100,
+		right : 50
+	}) //Adjust chart margins to give the x-axis some breathing room.
+	.useInteractiveGuideline(true) //We want nice looking tooltips and a guideline!
+	.transitionDuration(350) //how fast do you want the lines to transition?
+	.showLegend(true) //Show the legend, allowing users to turn on/off line series.
+	.showYAxis(true) //Show the y-axis
+	.showXAxis(true) //Show the x-axis
+	;
+	
+	try{
+	    var initData = JSON.parse('_TIMESERIESCHART_TEMPLATE'); 
+	    initData.forEach(function (d) {
+	    	 d.values.forEach(function(v){
+		         v.x = new Date(v.x); 
+	    	 });
+	     });
+	}catch(e){
+	}
+	
+	try{
+		lineChart.xAxis //Chart x-axis settings
+		.axisLabel(xlabel)
+		.tickValues(
+					initData[0].values.map(function(p) {
+						return p.x
+					}))
+		.tickFormat(function(d) {
+			return d3.time.format(xformat)(new Date(d))
 		});
+	}catch(e){
+	}
+	
+	/* Done setting the chart up? Time to render it!*/
+	d3.select('#chart svg') //Select the <svg> element you want to render the chart in.   
+	.datum(initData) //Populate the <svg> element with chart data...
+	.call(lineChart); //Finally, render the chart!
+	
+	lineChart.yAxis //Chart y-axis settings
+	.axisLabel(_YAXIS_LABEL_)
+	.tickFormat(_FORMAT_YAXIS_LABEL);
 
-		
-		
-		chart.yAxis //Chart y-axis settings
-		.axisLabel(_YAXIS_LABEL_)
-		.tickFormat(_FORMAT_YAXIS_LABEL);
+	try {
+		//Update the chart when window resizes.
+		nv.utils.windowResize(function() {
+			lineChart.update()
+		});
+	} catch (e) {
+	}
+	
+	return lineChart;
+});
 
+function tdb_refresh(arg) {
+	var reportData = {};
+	try {
+	     reportData = JSON.parse(arg); 
+	     reportData.forEach(function (d) {
+	    	 d.values.forEach(function(v){
+		         v.x = new Date(v.x); 
+	    	 });
+	     });
+	     
+		lineChart.xAxis //Chart x-axis settings
+		.tickValues(reportData[0].values.map(function(p) {
+			return p.x
+		}));
+		
 		/* Done setting the chart up? Time to render it!*/
 		d3.select('#chart svg') //Select the <svg> element you want to render the chart in.   
 		.datum(reportData) //Populate the <svg> element with chart data...
-		.call(chart) //Finally, render the chart!
-		;
-		
-		 // window.addEventListener("scroll", myFunc.bind(this, document.getElementById("chart")), false);
-		
-		//var zoom = d3.behavior.zoom().scaleExtent([0.1, 10]);
-	    
-		//d3.select('#chart svg')
-		//.call(zoom)
-		//.on("dblclick.zoom", null)
-		//.on("mousewheel.zoom", null)
-		
-		//.on("DOMMouseScroll.zoom",null)
-		//;
-		
-		//d3.event.sourceEvent.stopPropagation();		
-		/*
-		$('svg')
-  .on("mousewheel.zoom", null)
-  .on("DOMMouseScroll.zoom", null) // disables older versions of Firefox
-  .on("wheel.zoom", null);
-		*/
-		
-		//d3.call(d3.behavior.zoom().on("zoom", update)).on("dblclick.zoom", null);
-		//d3.call(d3.behavior.zoom().on("zoom", update)).on("mousewheel.zoom", null);
-		//d3.call(d3.behavior.zoom().on("zoom", update)).on("wheel.zoom", null);
-		//d3.call(d3.behavior.zoom().on("zoom", update)).on("DOMMouseScroll.zoom", null);
+		.call(lineChart); //Finally, render the chart!
+	} catch (e) {
+	}
+};
 
-		//Update the chart when window resizes.
-		nv.utils.windowResize(function() {
-			chart.update()
-		});
-		return chart;
-	});
 </script>
 
 <body scroll="no" style="overflow-x:hidden">

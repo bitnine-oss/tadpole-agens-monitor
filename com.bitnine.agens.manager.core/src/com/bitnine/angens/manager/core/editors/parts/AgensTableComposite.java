@@ -90,4 +90,8 @@ public abstract class AgensTableComposite extends AgensThreadComposite {
 	 * make columns
 	 */
 	public abstract void createTableColumn();
+	
+	public TableViewer getTableViewer() {
+		return tableView;
+	}
 }

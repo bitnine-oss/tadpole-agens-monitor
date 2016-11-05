@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
@@ -154,19 +155,43 @@ public class AgensManagerEditor extends EditorPart {
 			tabFolderMainResult.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 			tabFolderMainResult.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
-//					System.out.println(tabFolderMainResult.getSelectionIndex() + " selected");
+					System.out.println(tabFolderMainResult.getSelectionIndex() + " selected");
+					
+//					CTabItem tabItem = tabFolderMainResult.getItem(tabFolderMainResult.getSelectionIndex());
+//					Control comp = tabItem.getControl();
+//					if(comp instanceof ScrolledComposite) {
+//						System.out.println("========================================================");
+//						ScrolledComposite scComp = (ScrolledComposite)comp;
+//						scComp.getChildren()[0].setFocus();
+////						scComp.setFocus();
+//					}
+					if(tabFolderMainResult.getSelectionIndex() == 2) {
+						System.out.println("0090000 please help mej");
+						databaseComposite.getTableViewer().getTable().setSelection(0);
+						databaseComposite.getTableViewer().getTable().setFocus();
+					}
+					
 				}
 			});
 
 			createSummary();
-			createStatistics();
 			createOS();
+			createStatistics();
 			createSQL();
 			createActivities();
 			createInformation();
-			createLog();
+		    createLog();
 
-			tabFolderMainResult.setSelection(0);
+//		    tabFolderMainResult.setSelection(0);
+		    tabFolderMainResult.setSelection(2);
+//		    tabFolderMainResult.setSelection(2);
+//		    
+//		    tabFolderMainResult.setSelection(3);
+//		    
+//			tabFolderMainResult.setSelection(4);
+//			tabFolderMainResult.setSelection(5);
+//			tabFolderMainResult.setSelection(6);
+//			tabFolderMainResult.setSelection(0);
 		}
 	}
 	
@@ -228,6 +253,7 @@ public class AgensManagerEditor extends EditorPart {
 	/**
 	 * create statistics
 	 */
+	DatabaseStatisticsTableComposite databaseComposite;
 	private void createStatistics() {
 		CTabItem tbtmStatistics = new CTabItem(tabFolderMainResult, SWT.NONE);
 		tbtmStatistics.setText("Statistics");
@@ -237,52 +263,58 @@ public class AgensManagerEditor extends EditorPart {
 		scrolledComposite.setExpandVertical(true);
 		tbtmStatistics.setControl(scrolledComposite);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(scrolledComposite);
-		
+		logger.debug("complete....000");		
 		final Composite compositeBody = new Composite(scrolledComposite, SWT.NONE);
 		compositeBody.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		compositeBody.setLayout(new GridLayout(1, false));
-
+		logger.debug("complete....111");
 		// database statistics table
-		DatabaseStatisticsTableComposite databaseComposite = new DatabaseStatisticsTableComposite(compositeBody, userDB, getInstance(), new AgensMAPLabelProvider());
+		databaseComposite = new DatabaseStatisticsTableComposite(compositeBody, userDB, getInstance(), new AgensMAPLabelProvider());
 		databaseComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
+		logger.debug("complete....2222");
 		// transaction statistics table 
 		TransactionStatisticsTableComposite transactionComposite = new TransactionStatisticsTableComposite(compositeBody, userDB, getInstance());
 		transactionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
+		logger.debug("complete....333");
 		// database size table 
 		DatabaseSizeTableComposite databaseSizeComposite = new DatabaseSizeTableComposite(compositeBody, userDB, getInstance());
 		databaseSizeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
+		logger.debug("complete....4444");
 		// recovery conflicts
 		RecoveryConflictsTableComposite recoveryConflictsComposite = new RecoveryConflictsTableComposite(compositeBody, userDB, getInstance(), new AgensMAPLabelProvider());
 		recoveryConflictsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		//
+		logger.debug("complete....5555");		//
 		// instance activity
 		// WAL statistic table
 		WALStatisticsStatsTableComposite walStatsComposite = new WALStatisticsStatsTableComposite(compositeBody, userDB, getInstance(), new AgensMAPLabelProvider());
 		walStatsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+		logger.debug("complete....6666");	
 		// WAL statistic table
 		WALStatisticsTableComposite walConflictsComposite = new WALStatisticsTableComposite(compositeBody, userDB, getInstance());
 		walConflictsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
+		logger.debug("complete....7777");
 		// instance process ratio
 		InstanceProcessesRatioTableComposite instanceProcessRatioComposite = new InstanceProcessesRatioTableComposite(compositeBody, userDB, getInstance(), new AgensMAPLabelProvider());
 		instanceProcessRatioComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
+		logger.debug("complete....8");
 		// instance process
 		InstanceProcessesTableComposite instanceProcessComposite = new InstanceProcessesTableComposite(compositeBody, userDB, getInstance());
 		instanceProcessComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// initialize scrolled composite
 		scrolledComposite.setContent(compositeBody);
+		
 		scrolledComposite.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				Rectangle r = compositeBody.getClientArea();
 				scrolledComposite.setMinSize(compositeBody.computeSize(r.width, SWT.DEFAULT));
 			}
 		});
+		
+		logger.error("complete....");
+		
+		//scrolledComposite.computeSize(100000, 100000, true);//.setOrigin(0, 100000);// .setOrigin(instanceProcessComposite.getLocation());
+		//scrolledComposite.setOrigin(0, 0);// .setOrigin(instanceProcessComposite.getLocation());
 	}
 
 	/**

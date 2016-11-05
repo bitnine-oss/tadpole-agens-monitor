@@ -42,25 +42,19 @@ public abstract class AgensTimeseriesChartComposite extends AgensChartComposite 
 			_TEMPLATE_TIMESERIES_CHART_HTML = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, "_FORMAT_XAXIS_LABEL", 	xLabelFormat);
 			_TEMPLATE_TIMESERIES_CHART_HTML = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, "_YAXIS_LABEL_", 		yLabel);
 			_TEMPLATE_TIMESERIES_CHART_HTML = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, "_FORMAT_YAXIS_LABEL", 	yLabelFormat);
+						
+			try {
+				List<?> listData = getUIData();
+				TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
+				_TEMPLATE_TIMESERIES_CHART_HTML = StringUtils.replace(
+	    				_TEMPLATE_TIMESERIES_CHART_HTML, 
+	    				AgensChartTemplate.TIMESERIESCHART_TEMPLATE, 
+	    				AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup));				
+			} catch (Exception e) {
+			}
 			
 			browserChart.setText(_TEMPLATE_TIMESERIES_CHART_HTML);
-			
-			// 부자형 추천 코드.
-//			browserChart.addProgressListener(new ProgressListener() {
-//				@Override
-//				public void completed( ProgressEvent event ) {
-//					try {
-//						List<?> listData = getUIData();
-//						TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
-//		    			String jsondata = AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup);
-//		    			browserChart.evaluate(String.format("tdb_alert('%s');", jsondata));
-//					} catch(Exception ee) {
-//						logger.error("rdb editor initialize ", ee); //$NON-NLS-1$
-//					}
-//				}
-//				public void changed( ProgressEvent event ) {}			
-//			});
-			
+						
 		} catch (IOException e) {
 			logger.error("get template htmll", e);
 		}
@@ -76,22 +70,23 @@ public abstract class AgensTimeseriesChartComposite extends AgensChartComposite 
 	    display.syncExec( new Runnable() {
 	    	public void run() {
 	    		try {
-
+/*
 	    			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
-		    		String strHtml = StringUtils.replace(_TEMPLATE_TIMESERIES_CHART_HTML, AgensChartTemplate.TIMESERIESCHART_TEMPLATE, AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup));
+		    		String strHtml = StringUtils.replace(
+		    				_TEMPLATE_TIMESERIES_CHART_HTML, 
+		    				AgensChartTemplate.TIMESERIESCHART_TEMPLATE, 
+		    				AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup));
 		    		if(logger.isDebugEnabled()) logger.debug("[output hthml]\n" + strHtml);
 		    		browserChart.setText(strHtml);
-	    			
 
+*/
 		    		// 부자형 추천 코드.
-//	      			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
-//	    			String jsondata = AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup);
-//	    			browserChart.evaluate(String.format("tdb_alert('%s');", jsondata));
+	      			TimeDataGroup[] arryDataGroup = listData.toArray(new TimeDataGroup[listData.size()]);
+	    			String jsondata = AgensChartUtils.jsonToFulliyTimeChart(arryDataGroup);
+	    			browserChart.evaluate(String.format("tdb_refresh('%s');", jsondata));
 	    			
 	    		} catch(Exception e) {
 	    			logger.error("print timeseries chart : " + e.getMessage());
-	    			// 부자형 추천 코드.
-//	    			browserChart.evaluate(String.format("tdb_alert('%s');", jsondata));
 	    		}
 	    	}
 	    });	// end display

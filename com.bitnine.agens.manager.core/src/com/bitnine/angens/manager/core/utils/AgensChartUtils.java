@@ -34,12 +34,12 @@ public class AgensChartUtils {
 	 * @return
 	 */
 	public static String jsonStrToDate(String strJsonData) {
-		String strString = StringUtils.replace(strJsonData, "\"new Date(\\\"", "new Date(\"");
-		strString = StringUtils.replace(strString, "\\\")\"", "\")");
+		//String strString = StringUtils.replace(strJsonData, "\"new Date(\\\"", "new Date(\"");
+		//strString = StringUtils.replace(strString, "\\\")\"", "\")");
 		
 		// 부자형 코드.
-//		String strString = StringUtils.replace(strJsonData, "\"new Date(\\\"", "\"");
-//		strString = StringUtils.replace(strString, "\\\")\"", "\"");
+		String strString = StringUtils.replace(strJsonData, "\"new Date(\\\"", "\"");
+		strString = StringUtils.replace(strString, "\\\")\"", "\"");
 		
 		return strString;
 	}
