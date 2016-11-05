@@ -155,7 +155,6 @@ public class AgensManagerEditor extends EditorPart {
 			tabFolderMainResult.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
 //					System.out.println(tabFolderMainResult.getSelectionIndex() + " selected");
-					
 				}
 			});
 

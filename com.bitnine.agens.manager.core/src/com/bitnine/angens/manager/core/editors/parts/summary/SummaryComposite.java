@@ -64,22 +64,22 @@ public class SummaryComposite extends Composite {
 	    itemSummary.setText(new String[] { "pg_version", ""+instance.getPg_version()});
 	    
 	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "snap_begin", ""});
+	    itemSummary.setText(new String[] { "count", ""+instance.getCount()});
 	    
 	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "snap_end", ""});
+	    itemSummary.setText(new String[] { "sum", ""+instance.getSum()});
 	    
 	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "duration", ""});
+	    itemSummary.setText(new String[] { "max", ""+instance.getMax()});
 	    
 	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "total_dbsize", ""});
+	    itemSummary.setText(new String[] { "max_time", ""+instance.getMax_time()});
 	    
-	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "total_commits", ""});
-	    
-	    itemSummary = new TableItem(tableSummary, SWT.NONE);
-	    itemSummary.setText(new String[] { "total_rollbacks", ""});
+//	    itemSummary = new TableItem(tableSummary, SWT.NONE);
+//	    itemSummary.setText(new String[] { "total_commits", ""});
+//	    
+//	    itemSummary = new TableItem(tableSummary, SWT.NONE);
+//	    itemSummary.setText(new String[] { "total_rollbacks", ""});
 	}
 
 	@Override
