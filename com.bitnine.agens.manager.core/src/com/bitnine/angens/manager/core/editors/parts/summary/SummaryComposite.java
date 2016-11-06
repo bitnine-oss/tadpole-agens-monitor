@@ -38,6 +38,10 @@ public class SummaryComposite extends Composite {
 		tableSummary = new Table(grpComp, SWT.BORDER | SWT.FULL_SELECTION);
 		tableSummary.setLinesVisible(true);
 		tableSummary.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridLayout gl_grpConnectionInfo = new GridLayout(1, false);
+		gl_grpConnectionInfo.verticalSpacing = 0;
+		gl_grpConnectionInfo.horizontalSpacing = 0;
+		tableSummary.setLayout(gl_grpConnectionInfo);
 		
 		TableColumn tblclmnColumnLabel = new TableColumn(tableSummary, SWT.NONE);
 		tblclmnColumnLabel.setWidth(150);

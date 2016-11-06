@@ -45,7 +45,9 @@ public abstract class AgensTableComposite extends AgensThreadComposite {
 		Table table = tableView.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd.minimumHeight = 100;
+		table.setLayoutData(gd);
 		GridLayout gl_grpConnectionInfo = new GridLayout(1, false);
 		gl_grpConnectionInfo.verticalSpacing = 0;
 		gl_grpConnectionInfo.horizontalSpacing = 0;
